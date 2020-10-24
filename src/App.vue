@@ -1,9 +1,11 @@
 <template>
-  <div id="app">
+  <v-app id="app">
     <router-view/>
-  </div>
+  </v-app>
 </template>
 
 <style lang="scss">
-
+#app {
+  background-color: #241F33
+}
 </style>

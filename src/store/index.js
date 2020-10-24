@@ -16,6 +16,9 @@ export default new Vuex.Store({
     },
     setError(state, err) {
       state.error = err.message
+    },
+    resetError(state) {
+      state.error = ""
     }
   },
   actions: {
@@ -26,18 +29,29 @@ export default new Vuex.Store({
       } catch (err) {
         this.commit('setError', err)
       }
-      
     },
 
     async signup({ dispatch }, form) {
-      const { user } = await fb.auth.createUserWithEmailAndPassword(form.email, form.password)
-      dispatch('fetchUserProfile', user)
+      try {
+        const { user } = await fb.auth.createUserWithEmailAndPassword(form.email, form.password)
+        dispatch('fetchUserProfile', user)
+      } catch (err) {
+        this.commit('setError', err)
+      }
     },
 
     async fetchUserProfile({ commit }, user) {
       const userProfile = await fb.usersCollection.doc(user.uid).get()
       commit('setUserProfile', userProfile.data())
       router.push('/')
+    },
+
+    async resetPassword({ commit }, email) {
+      try {
+        await fb.auth.sendPasswordResetEmail(email)
+      } catch (err) {
+        commit('setError', err)
+      }
     }
   },
   modules: {
