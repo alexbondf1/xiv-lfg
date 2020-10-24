@@ -1,5 +1,6 @@
 <template>
   <div class="login-container">
+    <PasswordReset v-if="showPasswordReset" @close="togglePasswordReset()"></PasswordReset>
     <div class="login-info">
       <h1>XIV-LFG</h1>
       <p>XIV-LFG is a recruitment tool for Final Fantasy XIV, allowing raid groups and individual players to find their perfect match based on role, experience, time availability and skill.</p>
@@ -20,13 +21,14 @@
         </div>
         <button @click="login()" class="login-form-button">Log In</button>
         <div class="login-form-extras">
+          <a @click="togglePasswordReset()">Forgot Password?</a><br/>
           <a @click="toggleForm()">New to XIV-LFG? Create an account!</a>
         </div>
       </form>
       <form v-else @submit.prevent>
         <h1>Sign Up</h1>
         <span v-if="error" class="error-container">
-          {{error}}
+          {{error}} 
         </span>
         <div class="login-form-group">
           <label for="email2">Email</label>
@@ -46,8 +48,12 @@
 </template>
 
 <script>
+import PasswordReset from '../components/ResetPassword'
 import { mapState } from 'vuex'
 export default {
+  components: {
+    PasswordReset
+  },
   data() {
     return {
       loginForm: {
@@ -58,7 +64,8 @@ export default {
         email: '',
         password: ''
       },
-      showLoginForm: true
+      showLoginForm: true,
+      showPasswordReset: false
     }
   },
   computed: {
@@ -67,6 +74,9 @@ export default {
   methods: {
     toggleForm() {
       this.showLoginForm = !this.showLoginForm
+    },
+    togglePasswordReset() {
+      this.showPasswordReset = !this.showPasswordReset
     },
     login() {
       this.$store.dispatch('login', {
