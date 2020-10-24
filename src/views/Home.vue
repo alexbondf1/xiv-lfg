@@ -1,0 +1,3 @@
+<template>
+  <h1>Congrats you are logged in!!!</h1>
+</template>
