@@ -15,10 +15,12 @@
           <label for="email1">Email</label>
           <input v-model.trim="loginForm.email" type="text" placeholder="warrioroflight@gmail.com" id="email1"/>
         </div>
+        <v-date-picker v-model="picker"></v-date-picker>
         <div class="login-form-group">
           <label for="password1">Password</label>
           <input v-model.trim="loginForm.password" type="password" placeholder="********" id="password1"/>
         </div>
+        
         <button @click="login()" class="login-form-button">Log In</button>
         <div class="login-form-extras">
           <a @click="togglePasswordReset()">Forgot Password?</a><br/>
@@ -56,6 +58,7 @@ export default {
   },
   data() {
     return {
+      picker: new Date().toISOString().substr(0, 10),
       loginForm: {
         email: '',
         password: ''
